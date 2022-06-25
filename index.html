@@ -2,12 +2,138 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
     <link rel="stylesheet" href="styles.css">
-    <title>Some CSS stuff</title>
 </head>
 <body>
-    
+    <div class="container">
+        <div class="features">
+            <div class="feature">
+                <h3 class="gradient">Gradient text</h3>
+                <p class="gradient">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, ipsa!</p>
+            </div>
+            <div class="feature">
+                <label class="switch">
+                    <input class="switch__input" type="checkbox" data-theme-toggle>
+                    <span class="switch__slider"></span>
+                </label>
+            </div>
+            <div class="feature">
+                <button id="db-click">
+                    Change Background on Double Click
+                </button>
+            </div>
+            <div class="feature">
+                <button id="emoji-btn"> 😁 </button>
+            </div>
+            <div class="feature">
+                <ul id="loader">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="feature">
+                <button id="toast-button">
+                    Make Payment →
+                </button>
+                <div id="toast-message">
+                    🎉 Payment Successful 🎉
+                    </div>
+                
+            </div>
+            <div class="feature">
+                <a href="#" class="arrowlink">
+                    <div class="arrow"></div>
+                    View Website
+                </a>
+            </div>
+            <div class="feature">
+                <div id="counter"></div>
+            </div>
+        </div>
+    </div>
 </body>
+<script>
+    const stylesheet = document.documentElement.style;
+
+    const toggle = document.querySelector(".switch__input[data-theme-toggle]");
+    toggle.addEventListener("click", () => {
+    // get the css variables
+    const color1 = getComputedStyle(document.documentElement).getPropertyValue(
+        "--color-1"
+    );
+    const color2 = getComputedStyle(document.documentElement).getPropertyValue(
+        "--color-2"
+    );
+
+    // switching the css variables
+    stylesheet.setProperty("--color-1", color2);
+    stylesheet.setProperty("--color-2", color1);
+    });
+
+    const btn = document.getElementById("db-click");
+
+    const hexColor = () => Math.floor(Math.random() * 16777215).toString(16);
+
+    btn.addEventListener("dblclick", () => {
+    btn.style.background = `#${hexColor()}`;
+    });
+
+    const btn_emoji = document.getElementById("emoji-btn");
+    const emojis = [
+    "😆",
+    "😅",
+    "🤣",
+    "😂",
+    "😀",
+    "🤑",
+    "🤨",
+    "🙂",
+    "😊",
+    "😗",
+    "😛",
+    "😏",
+    "🤥",
+    "😴",
+    "🥺",
+    "😧"
+    ];
+
+    btn_emoji.addEventListener("mouseover", () => {
+    btn_emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    });
+
+    const btn_toast = document.getElementById("toast-button");
+    const toast = document.getElementById("toast-message");
+
+    btn_toast.addEventListener("click", () => {
+    toast.classList.add("show");
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2000);
+    });
+
+    function count(element, startAmount, endAmount, duration) {
+    let startTimestamp;
+
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        element.innerText = Math.floor(
+        progress * (endAmount - startAmount) + startAmount
+        );
+
+        if (progress < 1) window.requestAnimationFrame(step);
+    };
+
+    window.requestAnimationFrame(step);
+    }
+
+    count(document.querySelector("#counter"), 50, 0, 5000);
+</script>
 </html>
